@@ -2,13 +2,11 @@ package book.chapter02;
 
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import static book.chapter02.Helper.getWordsFromWarAndPeace;
 
 public class Exercise01 {
     public static void main(String[] args) throws InterruptedException {
@@ -16,15 +14,8 @@ public class Exercise01 {
         Runtime runtime = Runtime.getRuntime();
         int availableProcessors = runtime.availableProcessors();
         System.out.println("Processors: " + availableProcessors);
-        Path warAndPeacePath = Paths.get(
-                System.getProperty("user.home"),
-                "Downloads",
-                "war_and_peace.txt"
-        );
         try {
-            final byte[] rawFile = Files.readAllBytes(warAndPeacePath);
-            String textWarAndPeace = new String(rawFile);
-            List<String> words = Arrays.asList(textWarAndPeace.split("[\\\\P{L}]+"));
+            List<String> words = getWordsFromWarAndPeace();
             System.out.println("total words: " + words.size());
             final double step = (double) words.size() / availableProcessors;
             Thread[] threads = new Thread[availableProcessors];
